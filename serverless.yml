@@ -1,0 +1,33 @@
+
+
+service: income
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-offline
+  - serverless-python-requirements
+
+
+custom:
+  pythonRequirements:
+     dockerizePip: non-linux
+
+provider:
+  name: aws
+  runtime: python3.9
+  stage: ${opt:stage, 'dev'}
+  environment:
+    RDS_USER: vehiculosDB
+    RDS_HOST: vehiculos.ch9wl55pxf5i.us-east-1.rds.amazonaws.com
+    RDS_DATABASE: postgres
+    RDS_PASSWORD: Hola123456
+    RDS_PORT: 5432
+
+functions:
+  income:
+    handler: src/handler.handler
+    events:
+      - httpApi:
+          path: /income
+          method: get 
